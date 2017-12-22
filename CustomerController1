@@ -1,0 +1,38 @@
+
+public class CustomerController
+{
+	public CustomerController(){};
+  
+  public static boolean addCustomer(int ID,int carNum,String exitTime,String email,int parkingLotNum,double balance,String dateOfRegistration,String arrivalDate,String arrivalTime)
+  {
+	  
+	      Customer cus = new Customer(ID,carNum,exitTime,email,parkingLotNum,balance,dateOfRegistration,arrivalDate,arrivalTime);
+	      CustomerRequest CR = new CustomerRequest("addCustomer",cus);
+	      Object message;
+	      Gson gson1 = new Gson();
+	      message = gson1.toJson(CR);
+	      ClientConsole chat= new ClientConsole("localhost", 5555);
+	      chat.accept(message);
+	      return true;
+	    
+	    
+  }
+  public static Customer trackReservation(int id){
+	  Customer cus = new Customer(id);
+	  CustomerRequest CR = new CustomerRequest("trackReservation",cus);
+      Object message;
+      Gson gson1 = new Gson();
+      message = gson1.toJson(CR);
+      ClientConsole chat= new ClientConsole("localhost", 5555);
+      chat.accept(message);
+      return cus;
+  }
+  public static void main(String[] args){
+	  //addCustomer(23,22,"1","2",3,4,"5","6","7");
+	  trackReservation(23);
+  
+  }
+		
+}
+
+//End of ConsoleChat class
