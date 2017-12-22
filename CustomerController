@@ -31,3 +31,8 @@ public class CustomerController
 }
 
 //End of ConsoleChat class
+
+public static Customer[] trackReservations(int id){
+	customerDbController cdbc;
+	return cdbc.trackReservations(id);
+}
