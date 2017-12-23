@@ -1,20 +1,21 @@
-package protoType;
+package client;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
 
 public class clientMenu {
+	public static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args){
+		//clientMenu cm = new clientMenu();
 		menu();
 	}
 	public clientMenu(){};
 	public static void menu(){
-		//customerController controller;
+		CustomerController controller = new CustomerController();
 		Customer me; //entity
 		System.out.println("Hello guest");
-		System.out.println("Select one of the two options (write the digit and press enter):\n");
-		System.out.println("1 - Register \n2- Log in\n");
-		Scanner sc = new Scanner(System.in);
+		System.out.println("Select one of the two options\n(write the digit and press enter):\n");
+		System.out.println("1 - Register \n2 - Log in\n3 - Exit");
 		int input = sc.nextInt();
 		sc.nextLine();
 		switch (input){
@@ -40,27 +41,36 @@ public class clientMenu {
 			int parkingLotNum = sc.nextInt();
 			sc.nextLine();
 			String dateOfRegistration = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-			me = controller.addCustomer(id, name, carNum,  finishingTime, email, parkingLotNum, dateOfRegistration, arrivalDate, arrivalTime);
-			if (me == null){
+			boolean a = CustomerController.addCustomer(id, carNum,  finishingTime, email, parkingLotNum, 0, dateOfRegistration, arrivalDate, arrivalTime);
+			if (a == false){
 				System.out.println("Registration failed. Try again");
 				menu();
 				break;
 			}
-			me = new Customer(id, name, carNum,  finishingTime, email, parkingLotNum, 0, dateOfRegistration, arrivalDate, arrivalTime);
+			me = new Customer(id, carNum,  finishingTime, email, parkingLotNum, 0, dateOfRegistration, arrivalDate, arrivalTime);
 			clientLoggedIn.menu(me);
 			break;
 		case 2: //Log in
 			System.out.println("Enter your client ID");
 			int ID = sc.nextInt();
 			sc.nextLine();
-			me = controller.findCustomer(ID);
-			if (me == null){
+			CustomerController.trackReservation(ID,"LogIn");
+			/*if (check == false){
 				System.out.println("Wrong client ID");
 				menu();
-			}
-			clientLoggedIn.menu(me);
+			}*/
+			//clientLoggedIn.menu(me);
 			break;
+		case 3 :
+			System.out.println("**** GOODBYE ****");
+			sc.close();
+			System.exit(1);
+		default :
+			System.out.println("\nWrong input, Please insert a valid number\n");
+			System.out.println("********************************************");
+			menu();
 		}
-		sc.close();
+		
+		
 	}
 }
