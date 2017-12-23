@@ -15,7 +15,6 @@ public class clientLoggedIn {
 		System.out.println("3 - Cancel reservation");
 		System.out.println("4 - Back to main menu");
 		System.out.println("********************************************\n");
-		//Scanner sc = new Scanner(System.in);
 		int input = clientMenu.sc.nextInt();	
 		clientMenu.sc.nextLine();
 		switch(input){
@@ -24,18 +23,49 @@ public class clientLoggedIn {
 			break;
 		case 2: //add reservation
 			System.out.println("Enter your car number");
-			int carNum = clientMenu.sc.nextInt();
+			String carnum = clientMenu.sc.nextLine();
+			boolean bool = clientMenu.checkDigitsOnly(carnum);
+			while (bool == false) {
+				System.out.println("Car number must contain up to nine digits only. Try again");
+				carnum = clientMenu.sc.nextLine();
+				bool = clientMenu.checkDigitsOnly(carnum);
+			}
+			int carNum = Integer.parseInt(carnum);
 			clientMenu.sc.nextLine();
-			System.out.println("Enter your arrival date");
+			System.out.println("Enter your arrival date in format dd-mm-yy");
 			String arrivalDate = clientMenu.sc.nextLine();
-			System.out.println("Enter your arrival time");
+			bool = clientMenu.checkDateFormat(arrivalDate);
+			while (bool == false) {
+				System.out.println("Date format is wrong. Try again (dd-mm-yy)");
+				arrivalDate = clientMenu.sc.nextLine();
+				bool = clientMenu.checkDateFormat(arrivalDate);
+			}
+			System.out.println("Enter your arrival time in format hh:mm");
 			String arrivalTime = clientMenu.sc.nextLine();
-			System.out.println("Enter your finishing time");
+			bool = clientMenu.checkTimeFormat(arrivalTime);
+			while (bool == false) {
+				System.out.println("Time format is wrong. Try again (hh:mm)");
+				arrivalTime = clientMenu.sc.nextLine();
+				bool = clientMenu.checkTimeFormat(arrivalTime);
+			}
+			System.out.println("Enter your finishing time in format hh:mm");
 			String finishingTime = clientMenu.sc.nextLine();
+			bool = clientMenu.checkTimeFormat(finishingTime);
+			while (bool == false) {
+				System.out.println("Time format is wrong. Try again (hh:mm)");
+				finishingTime = clientMenu.sc.nextLine();
+				bool = clientMenu.checkTimeFormat(finishingTime);
+			}
 			System.out.println("Select one of the two parking lots (write the digit and press enter):\n");
 			System.out.println("1 - Kibbutz Yagur parking lot \n2- HaKarmel parking lot");
 			int parkingLotNum = clientMenu.sc.nextInt();
 			clientMenu.sc.nextLine();
+			while (parkingLotNum != 1 && parkingLotNum != 2){
+				System.out.println("Wrong input. Select 1 or 2");
+				System.out.println("1 - Kibbutz Yagur parking lot \n2 - HaKarmel parking lot");
+				parkingLotNum = clientMenu.sc.nextInt();
+				clientMenu.sc.nextLine();
+			}
 			String dateOfRegistration = new SimpleDateFormat("dd-MM-yy").format(new Date());
 			boolean check = controller.addCustomer(me.getID(), carNum,  finishingTime, me.getEmail(), 0, parkingLotNum, dateOfRegistration, arrivalDate, arrivalTime);
 			if (check == false){
